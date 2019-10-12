@@ -7,8 +7,8 @@ session_start();
 $select = "	SELECT 
 	ci.*
 FROM
-	CatTiposInventario ci
-WHERE ci.eCodTipoInventario = ".$_GET['v1'];
+	CatSubClasificacionesInventarios ci
+WHERE ci.eCodSubclasificacion = ".$_GET['v1'];
 //echo $select;
 $rsPublicacion = mysql_query($select);
 $rPublicacion = mysql_fetch_array($rsPublicacion);
@@ -47,16 +47,27 @@ setTimeout(function(){
 <div class="row">
     <div class="col-lg-12">
     <form id="datos" name="datos" action="<?=$_SERVER['REQUEST_URI']?>" method="post" enctype="multipart/form-data">
-        <input type="hidden" id="eCodTipoInventario" name="eCodTipoInventario" value="<?=$_GET['v1']?>">
+        <input type="hidden" id="eCodSubclasificacion" name="eCodSubclasificacion" value="<?=$_GET['v1']?>">
         <input type="hidden" name="eAccion" id="eAccion">
                             <div class="col-lg-12">
-								<h2 class="title-1 m-b-25"><?=$_GET['eCodServicio'] ? 'Actualizar ' : '+ '?>Tipo de Inventario</h2>
+								<h2 class="title-1 m-b-25"><?=$_GET['v1'] ? 'Actualizar ' : '+ '?>Subclasificaci&oacute;n de Inventario</h2>
                                 <div class="card col-lg-12">
                                     
                                     <div class="card-body card-block">
                                         <!--campos-->
            
 		                                    <div class="form-group">
+                                               <label>Tipo de Inventario</label>
+                                               <select class="form-control" id="eCodTipoInventario" name="eCodTipoInventario">
+                                                <option value="">Seleccione...</option>
+                                                   <? $select = "SELECT * FROM CatTiposInventario ORDER BY ePosicion ASC";
+                                                        $rsTipos = mysql_query($select);
+                                                        while($rTipo = mysql_fetch_array($rsTipos)) {?>
+                                                   <option value="<?=$rTipo{'eCodTipoInventario'};?>" <?=(($rTipo{'eCodTipoInventario'}==$rPublicacion{'eCodTipoInventario'}) ? 'selected="selected"' : '' );?>><?=$rTipo{'tNombre'};?></option>
+                                                   <? } ?>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
                                                <label>Nombre</label>
                                                <input type="text" class="form-control" name="tNombre" id="tNombre" placeholder="Nombre" value="<?=($rPublicacion{'tNombre'})?>" >
                                             </div>

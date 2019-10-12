@@ -13,8 +13,8 @@ if($_GET['eCodInventario'])
     echo '<script>window.location="?tCodSeccion=cata-inv-con";</script>';
 }
 
-//$bAll = $_SESSION['bAll'];
-//$bDelete = $_SESSION['bAll'];
+//$bAll = $clSistema->validarPermiso(obtenerScript());
+//$bDelete = $clSistema->validarEliminacion(obtenerScript());
 
 ?>
 
@@ -69,7 +69,7 @@ function eliminar(eCodInventario)
 													
                                                         <!--tablas-->
                                                        
-                                    <table class="display" id="table<?=$i?>" width="100%">
+                                    <table class="display" id="table<?=$i?>">
                                         <thead>
                                             <tr>
                                                 <th>C&oacute;digo</th>
@@ -87,10 +87,12 @@ function eliminar(eCodInventario)
 											<?
 											$select = "	SELECT 
 															cti.tNombre as tipo, 
+                                                            csi.tNombre subclasificacion,
 															ci.*
 														FROM
 															CatInventario ci
-															INNER JOIN CatTiposInventario cti ON cti.eCodTipoInventario = ci.eCodTipoInventario".
+															INNER JOIN CatTiposInventario cti ON cti.eCodTipoInventario = ci.eCodTipoInventario
+                                                            LEFT JOIN CatSubClasificacionesInventarios csi ON csi.eCodSubclasificacion=ci.eCodSubclasificacion ".
 														" WHERE ci.eCodTipoInventario = ".$tipos[$i]['eCodTipoInventario'].
 														" ORDER BY ci.tNombre ASC";
 											$rsPublicaciones = mysql_query($select);

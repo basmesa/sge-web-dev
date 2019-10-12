@@ -10,7 +10,7 @@ $select = "	SELECT
 FROM
 	CatInventario ci
 	INNER JOIN CatTiposInventario cti
-WHERE ci.eCodInventario = ".$_GET['v1'];
+WHERE ci.eCodInventario = ".$_GET['val'];
 //echo $select;
 $rsPublicacion = mysql_query($select);
 $rPublicacion = mysql_fetch_array($rsPublicacion);
@@ -66,6 +66,7 @@ var mensaje = "";
 var tCodInventario = document.getElementById("tCodInventario");
 var tNombre = document.getElementById("tNombre");
 var eCodTipoInventario = document.getElementById("eCodTipoInventario");
+var eCodSubclasificacion = document.getElementById("eCodSubclasificacion");
 var tDescripcion = document.getElementById("tDescripcion");
 var dPrecioInterno = document.getElementById("dPrecioInterno");
 var dPrecioVenta = document.getElementById("dPrecioVenta");
@@ -85,6 +86,11 @@ var ePiezas = document.getElementById("ePiezas");
 	if(!eCodTipoInventario.value)
     {
         mensaje += "* Tipo\n";
+        bandera = true;
+    };
+    if(!eCodSubclasificacion.value)
+    {
+        mensaje += "* Subclasificacion\n";
         bandera = true;
     };
     if(!tDescripcion.value)
@@ -130,7 +136,7 @@ var ePiezas = document.getElementById("ePiezas");
 <div class="row">
     <div class="col-lg-12">
     <form id="datos" name="datos" action="<?=$_SERVER['REQUEST_URI']?>" method="post" enctype="multipart/form-data">
-        <input type="hidden" id="eCodInventario" name="eCodInventario" value="<?=$_GET['v1']?>">
+        <input type="hidden" id="eCodInventario" name="eCodInventario" value="<?=$_GET['val']?>">
         <input type="hidden" name="eAccion" id="eAccion">
                             <div class="col-lg-12">
 								<h2 class="title-1 m-b-25"><?=$_GET['eCodServicio'] ? 'Actualizar ' : '+ '?>Inventario</h2>
@@ -143,7 +149,7 @@ var ePiezas = document.getElementById("ePiezas");
            </div>
            <div class="form-group">
               <label>Tipo</label>
-              <select id="eCodTipoInventario" name="eCodTipoInventario">
+              <select id="eCodTipoInventario" name="eCodTipoInventario" onchange="buscarSubclasificacion()">
 			  <option value="">Seleccione...</option> 
 				  <?
 		$select = "SELECT * FROM CatTiposInventario order by tNombre ASC";
@@ -152,6 +158,22 @@ var ePiezas = document.getElementById("ePiezas");
 		   {
 			   ?>
 				  <option value="<?=$rTipo{'eCodTipoInventario'}?>" <?=($rTipo{'eCodTipoInventario'}==$rPublicacion{'eCodTipoInventario'}) ? 'selected' : ''?>><?=$rTipo{'tNombre'}?></option>
+				  <?
+		   }
+	?>
+			  </select>
+           </div>
+           <div class="form-group">
+              <label>Subclasificaci&oacute;</label>
+              <select id="eCodSubclasificacion" name="eCodSubclasificacion">
+			  <option value="">Seleccione...</option> 
+				  <?
+		$select = "SELECT * FROM CatSubClasificacionesInventarios order by tNombre ASC";
+		$rsTipos = mysql_query($select);
+		   while($rTipo = mysql_fetch_array($rsTipos))
+		   {
+			   ?>
+				  <option value="<?=$rTipo{'eCodSubclasificacion'}?>" <?=($rTipo{'eCodSubclasificacion'}==$rPublicacion{'eCodSubclasificacion'}) ? 'selected' : ''?>><?=$rTipo{'tNombre'}?></option>
 				  <?
 		   }
 	?>

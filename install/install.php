@@ -1,7 +1,7 @@
 <?php
 $filename = "swgc-mysql.php";
 $content = "<?php
-$conexion = mysql_connect(\"".$_POST['hostname']."\",\"".$_POST['username']."\",\"".$_POST['password']."\");
+$conexion = mysql_connect(\"".$_POST['hostname']."\",\"".$_POST['username']."\",\"B@".$_POST['password']."\");
 mysql_select_db(\"".$_POST['database']."\");
 ?>";
 
@@ -45,11 +45,10 @@ $hostName = $_POST['hostname'];
 $userName = $_POST['username'];
 $password = $_POST['password'];
 $dataBaseName = $_POST['database'];
-$fileName = './database.sql';
+$fileName = 'script.sql';
 
 if ($connection = @mysqli_connect($hostName, $userName, $password, $dataBaseName)) {
   executeScriptFile($fileName, $connection);
-	mysql_query("UpDATE SisVariables SET tValor='".$_POST['domain']."' WHERE tNombre = 'tURL'");
 } else {
   die('No se pudo establecer la conexión con el servidor de MySQL');
 }

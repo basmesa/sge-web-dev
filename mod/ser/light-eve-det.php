@@ -135,7 +135,7 @@ $rsClientes = mysql_query($select);
                     <table>
                         <tr>
                             <td class="title">
-                                <img src="../images/icon/logo.png" style="max-width:100px;">
+                                <img src="../../images/icon/logo.png" style="max-width:100px;">
                             </td>
                             
                             <td>
@@ -219,7 +219,11 @@ $rsClientes = mysql_query($select);
             
             <!-- Desglose de paquete -->
                     <?
-                        $select = "SELECT ci.tNombre, rsi.ePiezas FROM CatInventario ci INNER JOIN RelServiciosInventario rsi ON rsi.eCodInventario=ci.eCodInventario WHERE rsi.eCodServicio = ".$rPaquete{'eCodServicio'};
+                       $select = "SELECT ci.tNombre, cti.ePosicion, cst.ePosicion rsi.ePiezas FROM CatInventario ci 
+                            INNER JOIN CatTiposInventario cti ON cti.eCodTipoInventario=ci.eCodTipoInventario
+                            INNER JOIN CatSubClasificacionesInventarios cst ON cst.eCodTipoInventario=cti.eCodTipoInventario
+                            INNER JOIN RelServiciosInventario rsi ON rsi.eCodInventario=ci.eCodInventario 
+                            WHERE rsi.eCodServicio = ".$rPaquete{'eCodServicio'}." ORDER BY cti.ePosicion ASC, cst.ePosicion ASC";
                                                 $rsDesglose = mysql_query($select);
                                                 while($rDesglose = mysql_fetch_array($rsDesglose))
                                                 {

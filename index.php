@@ -989,6 +989,35 @@ setTimeout(function(){
               }
           });    
         }
+        
+         function buscarSubclasificacion()
+        {
+          var obj = $('#datos').serializeJSON();
+          var jsonString = JSON.stringify(obj);
+          
+          $.ajax({
+              type: "POST",
+              url: "<?=obtenerURL();?>que/buscar-subclasificaciones.php",
+              data: jsonString,
+              contentType: "application/json; charset=utf-8",
+              dataType: "json",
+              success: function(data){
+                  document.getElementById('eCodSubclasificacion').innerHTML = data.valores;
+              },
+              failure: function(errMsg) {
+                  alert('Error al enviar los datos.');
+              }
+          });    
+        }
+        
+        function crearPDF(tipo)
+        {
+            if(tipo=="cotizacion")
+            {
+                window.open('<?=obtenerURL();?>crear/pdf/cotizacion/<?=$_GET['v1'];?>/', '_blank');
+            }
+        }
+      
       
             
       $(document).ready( function () {

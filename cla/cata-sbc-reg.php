@@ -21,11 +21,15 @@ $data = json_decode( file_get_contents('php://input') );
 
 /*Preparacion de variables*/
         
-        $eCodTipoInventario     = $data->eCodTipoInventario ? $data->eCodTipoInventario : false;
-        $ePosicion              = $data->ePosicion          ? $data->ePosicion          : false;
-        $tNombre                = $data->tNombre ? "'".utf8_encode($data->tNombre)."'" : false;
+        $eCodTipoInventario     = $data->eCodTipoInventario     ? $data->eCodTipoInventario             : false;
+        $eCodSubclasificacion   = $data->eCodSubclasificacion   ? $data->eCodSubclasificacion           : false;
+        $ePosicion              = $data->ePosicion              ? $data->ePosicion                      : false;
+        $tNombre                = $data->tNombre                ? "'".utf8_encode($data->tNombre)."'"   : false;
 		$eCodUsuario            = $_SESSION['sessionAdmin']['eCodUsuario'];
 		$fhFechaCreacion        = "'".date('Y-m-d H:i')."'";
+
+        if(!$eCodTipoInventario)
+            $errores[] = 'El tipo de inventario es obligatorio';
 
         if(!$tNombre)
             $errores[] = 'El nombre es obligatorio';
@@ -39,15 +43,17 @@ $data = json_decode( file_get_contents('php://input') );
         
         if(!sizeof($errores))
         {
-    if(!$eCodTipoInventario)
+    if(!$eCodSubclasificacion)
         {
-            $insert = " INSERT INTO CatTiposInventario
+            $insert = " INSERT INTO CatSubClasificacionesInventarios
             (
+            eCodTipoInventario,
             tNombre,
             ePosicion
 			)
             VALUES
             (
+            $eCodTipoInventario,
             $tNombre,
             $ePosicion
             )";
@@ -55,12 +61,13 @@ $data = json_decode( file_get_contents('php://input') );
         else
         {
             $insert = "UPDATE 
-                            CatTiposInventario
+                            CatSubClasificacionesInventarios
                         SET
                             tNombre= $tNombre,
+                            eCodTipoInventario= $eCodTipoInventario,
                             ePosicion=$ePosicion
                             WHERE
-                            eCodTipoInventario = ".$eCodTipoInventario;
+                            eCodSubclasificacion = ".$eCodSubclasificacion;
         }
 }
         

@@ -9,7 +9,7 @@ $select = "	SELECT
 FROM
 	CatInventario ci
 	INNER JOIN CatTiposInventario cti
-WHERE ci.eCodInventario = ".$_GET['v1'];
+WHERE ci.eCodInventario = ".$_GET['val'];
 $rsCliente = mysql_query($select);
 $rCliente = mysql_fetch_array($rsCliente);
 ?>

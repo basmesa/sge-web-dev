@@ -42,6 +42,7 @@ $data = json_decode( file_get_contents('php://input') );
         
         $eCodInventario = $data->eCodInventario ? $data->eCodInventario : false;
 		$eCodTipoInventario = $data->eCodTipoInventario;
+		$eCodSubclasificacion = $data->eCodSubclasificacion;
         $tNombre = "'".$data->tNombre."'";
         $tMarca = "'".$data->tMarca."'";
         $tDescripcion = "'".$data->tDescripcion."'";
@@ -52,6 +53,9 @@ $data = json_decode( file_get_contents('php://input') );
 
 if(!$eCodTipoInventario)
    $errores[] = 'El tipo de producto es obligatorio'; 
+
+if(!$eCodSubclasificacion)
+   $errores[] = 'La subclasificacion es obligatoria'; 
 
 if(!$tNombre)
    $errores[] = 'El nombre de producto es obligatorio'; 
@@ -80,6 +84,7 @@ if(!sizeof($errores))
             $insert = " INSERT INTO CatInventario
             (
 			eCodTipoInventario,
+			eCodSubclasificacion,
             tNombre,
             tMarca,
             tDescripcion,
@@ -91,6 +96,7 @@ if(!sizeof($errores))
             VALUES
             (
             $eCodTipoInventario,
+            $eCodSubclasificacion,
             $tNombre,
             $tMarca,
             $tDescripcion,
@@ -106,6 +112,7 @@ if(!sizeof($errores))
                             CatInventario
                         SET
                             eCodTipoInventario=$eCodTipoInventario,
+                            eCodSubclasificacion=$eCodSubclasificacion,
             				tNombre=$tNombre,
             				tMarca=$tMarca,
             				tDescripcion=$tDescripcion,
@@ -132,7 +139,7 @@ if(!sizeof($errores))
     $tDescripcion = "Se ha insertado/actualizado el producto ".sprintf("%07d",$eCodInventario);
     $tDescripcion = "'".$tDescripcion."'";
     $fecha = "'".date('Y-m-d H:i:s')."'";
-    $eCodUsuario = $_SESSION['sessionAdmin']['eCodUsuario'];
+    $eCodUsuario = $_SESSION['sessionAdmin'][0]['eCodUsuario'];
     mysql_query("INSERT INTO SisLogs (eCodUsuario, fhFecha, tDescripcion) VALUES ($eCodUsuario, $fecha, $tDescripcion)");
 }
 

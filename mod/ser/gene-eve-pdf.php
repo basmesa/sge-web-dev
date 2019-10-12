@@ -1,10 +1,14 @@
 <?php
 
+include("../../cnx/swgc-mysql.php");
+require_once("../../cls/cls-sistema.php");
+include("../../inc/fun-ini.php");
+
 ini_set('display_errors', 0);
 ini_set('display_startup_errors', 0);
 //error_reporting(E_ALL);
 
-$url = "http://sge.sdibabec.com/mod/ser/light-eve-det.php?eCodEvento=".$_GET['v1'];
+$url = obtenerURL()."mod/ser/light-eve-det.php?eCodEvento=".$_GET['v1'];
 
 $html=file_get_contents($url);
 
