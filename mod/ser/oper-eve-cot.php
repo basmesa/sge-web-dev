@@ -2,6 +2,9 @@
 require_once("cnx/swgc-mysql.php");
 require_once("cls/cls-sistema.php");
 
+//ini_set('display_errors', 1);
+//ini_set('display_startup_errors', 1);
+//error_reporting(E_ALL);
 
 $clSistema = new clSis();
 session_start();
@@ -192,9 +195,10 @@ $horas[] = array('23:00','23:00 - 04:00');
 											<tr>
 												<td><?=($rPublicacion{'tNombre'})?></td>
 												<td class="text-right" align="right"> 
-                                                   <input type="text" class="form-control" name="eCantidad<?=$b?>" id="eCantidad<?=$b?>" placeholder="10">
+                                                   <input type="text" class="form-control" name="eCantidad<?=$b?>" id="eCantidad<?=$b?>" placeholder="10" onkeyup="validarPiezas(<?=$b;?>)">
                                                 </td><td>
                                                     <input type="hidden" id="eCodServicio<?=$b?>" name="eCodServicio<?=$b?>" value="<?=$rPublicacion{'eCodServicio'}?>">
+													<input type="hidden" id="eMaxPiezas<?=$b?>" name="eMaxPiezas<?=$b?>" value="<?=calcularPaquete($rPublicacion{'eCodServicio'});?>">
                                                     <input type="hidden" id="tPaquete<?=$b?>" name="tPaquete<?=$b?>" value="<?=($rPublicacion{'tNombre'})?>">
                                                     <input type="hidden" id="dPrecioVenta<?=$b?>" name="dPrecioVenta<?=$b?>" value="<?=$rPublicacion{'dPrecioVenta'}?>">
                                                     <input type="button" class="btn btn-info" onclick="nvaFila(<?=$b?>,1)" value="+">
@@ -237,9 +241,10 @@ $horas[] = array('23:00','23:00 - 04:00');
 											<tr>
 												<td><?=($rPublicacion{'tNombre'})?></td>
 												<td class="text-right" align="right"> 
-													<input type="text" class="form-control" name="eCantidad<?=$b?>" id="eCantidad<?=$b?>" placeholder="10">
+													<input type="text" class="form-control" name="eCantidad<?=$b?>" id="eCantidad<?=$b?>" placeholder="10" onkeyup="validarPiezas(<?=$b;?>)">
                                                 </td><td>
                                                     <input type="hidden" id="eCodServicio<?=$b?>" name="eCodServicio<?=$b?>" value="<?=$rPublicacion{'eCodInventario'}?>">
+													<input type="hidden" id="eMaxPiezas<?=$b?>" name="eMaxPiezas<?=$b?>" value="<?=calcularInventario($rPublicacion{'eCodInventario'});?>">
                                                     <input type="hidden" id="tPaquete<?=$b?>" name="tPaquete<?=$b?>" value="<?=$rPublicacion{'tNombre'}?>">
                                                     <input type="hidden" id="dPrecioVenta<?=$b?>" name="dPrecioVenta<?=$b?>" value="<?=$rPublicacion{'dPrecioVenta'}?>">
                                                 <input type="button" class="btn btn-info" onclick="nvaFila(<?=$b?>,2)" value="+">
@@ -583,6 +588,20 @@ function hora(objeto)
         if(bHoraExtra.checked==true){ horaExtra.style.display='inline'; }
         else{ horaExtra.style.display='none'; }
     }
+	
+	function validarPiezas(indice)
+	{
+		var	eCantidad 	= document.getElementById('eCantidad'+indice);
+		var	eMaxPiezas 	= document.getElementById('eMaxPiezas'+indice);
+		
+		
+		
+		if( parseInt(eCantidad.value) > parseInt(eMaxPiezas.value)) 
+			{
+				alert("No permitido. El máximo de venta es de "+eMaxPiezas.value+" unidades.");
+				eCantidad.value=eMaxPiezas;
+			}
+	}
     
     calcular();
     

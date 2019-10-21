@@ -69,7 +69,7 @@ setTimeout(function(){
         <input type="hidden" name="eCodEvento" value="<?=$_GET['v1']?>">
         <input type="hidden" name="eAccion" id="eAccion">
                             <div class="col-lg-12">
-								<h2 class="title-1 m-b-25">Detalles de la Renta</h2>
+								<h2 class="title-1 m-b-25">Detalles del Evento</h2>
                                 <div class="card col-lg-12">
                                     
                                     <div class="card-body card-block">

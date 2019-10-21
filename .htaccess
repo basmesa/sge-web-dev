@@ -14,6 +14,7 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^([a-z]{3})\/([a-z\-]+)\/([a-z\-]+)\/(?(?=(v1))((v1)\/([a-z0-9]+)\/)|())$ index.php?tDirectorio=$1&tCodSeccion=$2&v1=$7
 RewriteRule ^(generar|exportar)\/(xls|pdf)\/([a-z\-]+)\/(?(?=(v1))((v1)\/([a-z0-9]+)\/)|()) generar.php?tFormato=$2&tCodSeccion=$3&v1=$7
 RewriteRule ^(crear)\/(pdf)\/(cotizacion)\/([0-9A-Z]+)\/ mod/ser/gene-eve-pdf.php?v1=$4
+RewriteRule ^(pdf|xls)\/([a-zA-Z0-9\-]+)\/(?(?=(v1))((v1)\/([a-z0-9]+)\/)|()) mod/$1/$2.php?v1=$6
 RewriteRule ^(notificaciones)\/([\d\-]+)\/$ index.php?tAccion=sistema&tTipo=notificaciones&tSeccion=usuario&fecha=$2
 RewriteRule ^(login|logout)\/$ $1.php
 
