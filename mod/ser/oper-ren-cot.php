@@ -15,47 +15,58 @@ $select = "SELECT be.*, cc.tNombres, cc.tApellidos FROM BitEventos be INNER JOIN
 $rsPublicacion = mysql_query($select);
 $rPublicacion = mysql_fetch_array($rsPublicacion);
 
-//clientes
-$select = "	SELECT 
-															cc.*, 
-											
-															su.tNombre as promotor
-														FROM
-															CatClientes cc
-														
-														LEFT JOIN SisUsuarios su ON su.eCodUsuario = cc.eCodUsuario".
-												($bAll ? "" : " WHERE cc.eCodUsuario = ".$_SESSION['sessionAdmin']['eCodUsuario']).
-														" ORDER BY cc.eCodCliente ASC";
 
-
-$rsClientes = mysql_query($select);
 
 $horas = array();
 
 $horas[] = array('00:00','00:00 - 05:00');
+$horas[] = array('00:30','00:30 - 05:30');
 $horas[] = array('01:00','01:00 - 06:00');
+$horas[] = array('01:30','01:30 - 06:30');
 $horas[] = array('02:00','02:00 - 07:00');
+$horas[] = array('02:30','02:30 - 07:30');
 $horas[] = array('03:00','03:00 - 08:00');
+$horas[] = array('03:30','03:30 - 08:30');
 $horas[] = array('04:00','04:00 - 09:00');
+$horas[] = array('04:30','04:30 - 09:30');
 $horas[] = array('05:00','05:00 - 10:00');
+$horas[] = array('05:30','05:30 - 10:30');
 $horas[] = array('06:00','06:00 - 11:00');
+$horas[] = array('06:30','06:30 - 11:30');
 $horas[] = array('07:00','07:00 - 12:00');
+$horas[] = array('07:30','07:30 - 12:30');
 $horas[] = array('08:00','08:00 - 13:00');
+$horas[] = array('08:30','08:30 - 13:30');
 $horas[] = array('09:00','09:00 - 14:00');
+$horas[] = array('09:30','09:30 - 14:30');
 $horas[] = array('10:00','10:00 - 15:00');
+$horas[] = array('10:30','10:30 - 15:30');
 $horas[] = array('11:00','11:00 - 16:00');
+$horas[] = array('11:30','11:30 - 16:30');
 $horas[] = array('12:00','12:00 - 17:00');
+$horas[] = array('12:30','12:30 - 17:30');
 $horas[] = array('13:00','13:00 - 18:00');
+$horas[] = array('13:30','13:30 - 18:30');
 $horas[] = array('14:00','14:00 - 19:00');
+$horas[] = array('14:30','14:30 - 19:30');
 $horas[] = array('15:00','15:00 - 20:00');
+$horas[] = array('15:30','15:30 - 20:30');
 $horas[] = array('16:00','16:00 - 21:00');
+$horas[] = array('16:30','16:30 - 21:30');
 $horas[] = array('17:00','17:00 - 22:00');
+$horas[] = array('17:30','17:30 - 22:30');
 $horas[] = array('18:00','18:00 - 23:00');
+$horas[] = array('18:30','18:30 - 23:30');
 $horas[] = array('19:00','19:00 - 00:00');
+$horas[] = array('19:30','19:30 - 00:30');
 $horas[] = array('20:00','20:00 - 01:00');
+$horas[] = array('20:30','20:30 - 01:30');
 $horas[] = array('21:00','21:00 - 02:00');
+$horas[] = array('21:30','21:30 - 02:30');
 $horas[] = array('22:00','22:00 - 03:00');
+$horas[] = array('22:30','22:30 - 03:30');
 $horas[] = array('23:00','23:00 - 04:00');
+$horas[] = array('23:30','23:30 - 04:30');
 
 ?>
 
@@ -69,57 +80,17 @@ $horas[] = array('23:00','23:00 - 04:00');
         <input type="hidden" name="eAccion" id="eAccion">
                             <div class="col-lg-12">
 								<h2 class="title-1 m-b-25"><?=$_GET['v1'] ? 'Actualizar ' : '+ '?>Renta</h2>
-                                <div id="mostrarTabla" <?=(($_GET['v1'])? 'style="display:none;"' : '')?> class="col-lg-12">
-               <table class="display" id="misClientes1" width="100%">
-                                        <thead>
-                                            
-                                            <tr>
-                                                <th></th>
-                                                <th>Nombre</th>
-                                                <th>Correo</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-											<?
-											$select = "	SELECT 
-															cc.*, 
-															ce.tIcono as estatus,
-															su.tNombre as promotor
-														FROM
-															CatClientes cc
-														LEFT JOIN CatEstatus ce ON cc.eCodEstatus = ce.eCodEstatus
-														LEFT JOIN SisUsuarios su ON su.eCodUsuario = cc.eCodUsuario
-                                                        WHERE 1=1".
-                                                ($_SESSION['sessionAdmin']['bAll'] ? "" : " AND cc.eCodEstatus<> 7").
-												($bAll ? "" : " AND cc.eCodUsuario = ".$_SESSION['sessionAdmin']['eCodUsuario']).
-														" ORDER BY cc.eCodCliente ASC";
-          
-          
-											$rsClientes = mysql_query($select);
-											while($rCliente = mysql_fetch_array($rsClientes))
-											{ ?>
-											<tr>
-                                                <td>
-                                                    <a href="#" class="btn btn-info" onclick="asignarParametro(<?=$rCliente{'eCodCliente'};?>,'<?=utf8_decode($rCliente{'tNombres'}.' '.$rCliente{'tApellidos'})?>');"><i class="far fa-check-square"></i></a>
-                                                </td>
-												<td><?=utf8_decode($rCliente{'tTitulo'})?> <?=utf8_decode($rCliente{'tNombres'})?> <?=utf8_decode($rCliente{'tApellidos'})?></td>
-												<td><?=utf8_decode($rCliente{'tCorreo'})?></td>
-                                            </tr>
-											<?
-											}
-											?>
-                                        </tbody>
-                                    </table>
-                                            </div>
-                                <div class="col-lg-12" id="cot1" <?=((!$_GET['v1'])? 'style="display:none;"' : '')?>>
+                                
+                                <div class="col-lg-12" id="cot1" >
                                     
                                     <div class="card-body card-block">
                                         <!--campos-->
                                         
            <div class="form-group">
-              <label> Cliente</label> <a href="#" id="asignarCliente" onclick="mostrarClientes();" style="display:none;"><i class="fas fa-pencil-alt"></i></a>
+              <label> Cliente</label> 
                <input type="hidden" name="eCodCliente" id="eCodCliente" value="<?=$rPublicacion{'eCodCliente'};?>"> 
-               <input type="text" class="form-control" id="tNombreCliente" readonly="readonly" value="<?=$rPublicacion{'tNombres'} . ' '.$rPublicacion{'tApellidos'};?>" <?=((!$_GET['v1'])? 'style="display:none;"' : '')?>> 
+               <input type="text" class="form-control" id="tCliente" <?=(($_GET['v1']) ? 'readonly="readonly"' : '' )?> value="<?=(($rPublicacion{'eCodCliente'}) ? $rPublicacion{'tNombres'} . ' '.$rPublicacion{'tApellidos'} : '');?>" placeholder="Cliente" onkeyup="buscarClientes()" onkeypress="buscarClientes()"> 
+               <small>Buscar y seleccionar el cliente de la lista</small>
                </div>
                                         
            
@@ -152,15 +123,18 @@ $horas[] = array('23:00','23:00 - 04:00');
            </div>
            <div class="form-group">
               <label>Observaciones</label>
-              <textarea class="form-control" rows="5" style="resize:none;" name="tObservaciones" id="tObservaciones" maxlength="250"><?=base64_decode(utf8_decode($rPublicacion{'tObservaciones'}))?></textarea>
+              <textarea class="form-control" rows="5" style="resize:none;" name="tObservaciones" id="tObservaciones"><?=base64_decode(utf8_decode($rPublicacion{'tObservaciones'}))?></textarea>
            </div>
            
                                         <!--campos-->
                                     </div>
                                 </div>
-                                <div class="col-lg-12" id="cot2" <?=((!$_GET['v1'])? 'style="display:none;"' : '')?>>
+                                <div class="col-lg-12" id="cot2" >
                                 
                                     <div class="card card-body card-block table-responsive">
+                                        <input type="hidden" name="eCodServicio" id="eCodServicio" value="">
+                                        <input type="hidden" name="eMaxPiezas" id="eMaxPiezas" value="">
+                                        <input type="hidden" name="dPrecioVenta" id="dPrecioVenta" value="">
                                         <div class="custom-tab">
 
 											<nav>
@@ -174,91 +148,37 @@ $horas[] = array('23:00','23:00 - 04:00');
 											<div class="tab-content pl-3 pt-2" id="nav-tabContent">
 												<div class="tab-pane fade show active" id="custom-nav-home" role="tabpanel" aria-labelledby="custom-nav-home-tab">
 													
-                                    <table class="display" id="table2" width="100%">
-                                        <thead>
-                                           
-                                            <tr>
-												<th width="60%">Nombre</th>
-                                                <th width="25%">Cantidad</th>
-                                                <th class="text-right" width="15%"></th>
+                                    <table width="100%" cellpadding="1" cellspacing="1">
+                                        <tr>
+												<td width="60%">
+                                                    <input type="text" class="form-control" id="tPaquete" placeholder="Buscar paquete" onkeyup="buscarPaquetes()" onkeypress="buscarPaquetes()">
+                                                </td>
+                                                <td width="25%">
+                                                    <input type="text" class="form-control" id="ePiezasSer" placeholder="10" onkeyup="validarPiezas(this.id)">
+                                                </td>
+                                                <td class="text-right" width="15%">
+                                                    <input type="button" class="btn btn-info" onclick="nvaFila('Ser',1)" value="+">
+                                                    <input type="button" class="btn btn-info" onclick="nvaFila('Ser',1,1)" value="&#x1f381;">
+                                                </td>
                                             </tr>
-                                        </thead>
-                                        <tbody>
-											<?
-    $opciones = '';
-                     for($i=1;$i<=10;$i++){$opciones.='<option value="'.$i.'">'.$i.'</option>';}
-											$select = "	SELECT 
-															* FROM CatServicios ORDER BY eCodServicio ASC";
-											$rsPublicaciones = mysql_query($select);
-                                            $b=1;
-											while($rPublicacion = mysql_fetch_array($rsPublicaciones))
-											{
-												?>
-											<tr>
-												<td><?=($rPublicacion{'tNombre'})?></td>
-												<td class="text-right" align="right"> 
-                                                   <input type="text" class="form-control" name="eCantidad<?=$b?>" id="eCantidad<?=$b?>" placeholder="10" onkeyup="validarPiezas(<?=$b;?>)">
-                                                </td><td>
-                                                    <input type="hidden" id="eCodServicio<?=$b?>" name="eCodServicio<?=$b?>" value="<?=$rPublicacion{'eCodServicio'}?>">
-													<input type="hidden" id="eMaxPiezas<?=$b?>" name="eMaxPiezas<?=$b?>" value="<?=calcularPaquete($rPublicacion{'eCodServicio'});?>">
-                                                    <input type="hidden" id="tPaquete<?=$b?>" name="tPaquete<?=$b?>" value="<?=($rPublicacion{'tNombre'})?>">
-                                                    <input type="hidden" id="dPrecioVenta<?=$b?>" name="dPrecioVenta<?=$b?>" value="<?=$rPublicacion{'dPrecioVenta'}?>">
-                                                    <input type="button" class="btn btn-info" onclick="nvaFila(<?=$b?>,1)" value="+">
-                                                    <input type="button" class="btn btn-info" onclick="nvaFila(<?=$b?>,1,1)" value="&#x1f381;">
-												</td>
-                                            </tr>
-											<?
-                                                    $b++;
-											}
-											?>
-                                        </tbody>
                                     </table>
                                    
                                                     </div>
                                                 <div class="tab-pane fade" id="custom-nav-profile" role="tabpanel" aria-labelledby="custom-nav-profile-tab">
 													
-                                    <table class="display" id="table" width="100%">
-                                        <thead>
-                                           
-                                            <tr>
-												<th width="60%">Nombre</th>
-                                                <th width="25%">Cantidad</th>
-                                                <th class="text-right" width="15%"></th>
+                                    <table width="100%" cellpadding="1" cellspacing="1">
+                                        <tr>
+												<td width="60%">
+                                                    <input type="text" class="form-control" id="tInventario" placeholder="Buscar Inventario" onkeyup="buscarInventario()" onkeypress="buscarInventario()">
+                                                </td>
+                                                <td width="25%">
+                                                    <input type="text" class="form-control" id="ePiezasInv" placeholder="10" onkeyup="validarPiezas(this.id)">
+                                                </td>
+                                                <td class="text-right" width="15%">
+                                                    <input type="button" class="btn btn-info" onclick="nvaFila('Inv',1)" value="+">
+                                                    <input type="button" class="btn btn-info" onclick="nvaFila('Inv',1,1)" value="&#x1f381;">
+                                                </td>
                                             </tr>
-                                        </thead>
-                                        <tbody>
-											<?
-											$select = "	SELECT 
-															cti.tNombre as tipo, 
-															ci.*
-														FROM
-															CatInventario ci
-															INNER JOIN CatTiposInventario cti ON cti.eCodTipoInventario = ci.eCodTipoInventario
-														ORDER BY ci.tNombre ASC";
-											$rsPublicaciones = mysql_query($select);
-                                            
-											while($rPublicacion = mysql_fetch_array($rsPublicaciones))
-											{
-												?>
-											<tr>
-												<td><?=($rPublicacion{'tNombre'})?></td>
-												<td class="text-right" align="right"> 
-													<input type="text" class="form-control" name="eCantidad<?=$b?>" id="eCantidad<?=$b?>" placeholder="10" onkeyup="validarPiezas(<?=$b;?>)">
-                                                </td><td>
-                                                    <input type="hidden" id="eCodServicio<?=$b?>" name="eCodServicio<?=$b?>" value="<?=$rPublicacion{'eCodInventario'}?>">
-                                                    <input type="hidden" id="eMaxPiezas<?=$b?>" name="eMaxPiezas<?=$b?>" value="<?=calcularInventario($rPublicacion{'eCodInventario'});?>">
-                                                    <input type="hidden" id="tPaquete<?=$b?>" name="tPaquete<?=$b?>" value="<?=$rPublicacion{'tNombre'}?>">
-                                                    <input type="hidden" id="dPrecioVenta<?=$b?>" name="dPrecioVenta<?=$b?>" value="<?=$rPublicacion{'dPrecioVenta'}?>">
-                                                <input type="button" class="btn btn-info" onclick="nvaFila(<?=$b?>,2)" value="+">
-                                                <input type="button" class="btn btn-info" onclick="nvaFila(<?=$b?>,2,1)" value="&#x1f381;">
-                                                
-												</td>
-                                            </tr>
-											<?
-                                                    $b++;
-											}
-											?>
-                                        </tbody>
                                     </table>
                                 
 												</div>
@@ -357,7 +277,7 @@ $horas[] = array('23:00','23:00 - 04:00');
                                     </div>
                                 </div>
                                 
-                                <div class="col-lg-12" id="cot3" <?=((!$_GET['v1'])? 'style="display:none;"' : '')?>>
+                                <div class="col-lg-12" id="cot3" >
                                 
                                     <div class="card-body card-block">
                                     <table class="table table-borderless ">
@@ -422,11 +342,10 @@ $horas[] = array('23:00','23:00 - 04:00');
     
     //tabla
     function nvaFila(indice,eCodTipo,bCortesia) {
-		var codigo		=	!indice ? document.getElementById('eCodServicio')   :   document.getElementById('eCodServicio'+indice);
-    	var cantidad	=	!indice ? document.getElementById('eCantidad')      :   document.getElementById('eCantidad'+indice);
-        var paquete     =   !indice ? document.getElementById('paquete')        :   document.getElementById('paquete'+indice);
-        var dPrecio     =   !indice ? document.getElementById('dPrecioVenta')   :   document.getElementById('dPrecioVenta'+indice);
-        var tPaquete    =   !indice ? $( "#paquete option:selected" ).text()    :   document.getElementById('tPaquete'+indice).value;
+		var codigo		=	document.getElementById('eCodServicio');
+    	var cantidad	=	document.getElementById('ePiezas'+indice);
+        var dPrecio     =   document.getElementById('dPrecioVenta');
+        var tPaquete    =   document.getElementById(indice=="Inv" ? 'tInventario' : 'tPaquete').value;
         
         if(codigo.value!="" && cantidad.value!="")
         {
@@ -447,6 +366,10 @@ nIndice++;
     document.getElementById('eFilas').value = nIndice;
 
     calcular();
+            
+            codigo.value="";
+            dPrecio.value="";
+            document.getElementById(indice=="Inv" ? 'tInventario' : 'tPaquete').value = "";
             
     }
 }
@@ -591,17 +514,17 @@ function hora(objeto)
         else{ horaExtra.style.display='none'; }
     }
 	
-	function validarPiezas(indice)
+	function validarPiezas(objeto)
 	{
-		var	eCantidad 	= document.getElementById('eCantidad'+indice);
-		var	eMaxPiezas 	= document.getElementById('eMaxPiezas'+indice);
+		var	eCantidad 	= document.getElementById(objeto);
+		var	eMaxPiezas 	= document.getElementById('eMaxPiezas');
 		
 		
 		
 		if( parseInt(eCantidad.value) > parseInt(eMaxPiezas.value)) 
 			{
 				alert("No permitido. El máximo de venta es de "+eMaxPiezas.value+" unidades.");
-				eCantidad.value=eMaxPiezas;
+				eCantidad.value=eMaxPiezas.value;
 			}
 	}
     

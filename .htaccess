@@ -17,6 +17,7 @@ RewriteRule ^(crear)\/(pdf)\/(cotizacion)\/([0-9A-Z]+)\/ mod/ser/gene-eve-pdf.ph
 RewriteRule ^(pdf|xls)\/([a-zA-Z0-9\-]+)\/(?(?=(v1))((v1)\/([a-z0-9]+)\/)|()) mod/$1/$2.php?v1=$6
 RewriteRule ^(notificaciones)\/([\d\-]+)\/$ index.php?tAccion=sistema&tTipo=notificaciones&tSeccion=usuario&fecha=$2
 RewriteRule ^(login|logout)\/$ $1.php
+RewriteRule ^(que|auc|inc|cla)\/([a-zA-Z0-9\-]+)$ $1/$2.php
 
 
 # compress

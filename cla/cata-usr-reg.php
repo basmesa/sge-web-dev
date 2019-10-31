@@ -15,7 +15,7 @@ if (isset($_SERVER{'HTTP_ORIGIN'})) {
 //ini_set('display_startup_errors', 1);
 //error_reporting(E_ALL);
 
-include("../cnx/swgc-mysql.php");
+require_once("../cnx/swgc-mysql.php");
 
 $pf = fopen("logUSR.txt","a");
 

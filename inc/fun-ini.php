@@ -1,5 +1,5 @@
 <?php
-include("../cnx/swgc-mysql.php");
+require_once("../cnx/swgc-mysql.php");
 
 
 date_default_timezone_set('America/America/Mexico_City');

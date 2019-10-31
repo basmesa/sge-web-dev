@@ -107,7 +107,7 @@ var dPrecio = document.getElementById("dPrecio");
            </div>
            <div class="form-group">
               <label>Descripci&oacute;n</label>
-              <textarea class="form-control" name="tDescripcion" id="tDescripcion" placeholder="Descripci&oacute;n" rows="5" style="resize:none;"><?=base64_decode($rPublicacion{'tDescripcion'})?></textarea>
+              <textarea class="form-control" name="tDescripcion" id="tDescripcion" placeholder="Descripci&oacute;n" rows="5" style="resize:none;"><?=utf8_decode($rPublicacion{'tDescripcion'})?></textarea>
            </div>
            <div class="form-group">
               <label>Precio Hora Extra</label>

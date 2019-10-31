@@ -1,5 +1,5 @@
 <?php
-include("./cnx/swgc-mysql.php");
+require_once("./cnx/swgc-mysql.php");
 require_once("./cls/cls-sistema.php");
 include("./inc/fun-ini.php");
 $url = obtenerURL()."light-eve-det.php?eCodEvento=".$_GET['v1'];

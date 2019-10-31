@@ -14,7 +14,7 @@ if (isset($_SERVER{'HTTP_ORIGIN'})) {
 
 session_start();
 
-include("../cnx/swgc-mysql.php");
+require_once("../cnx/swgc-mysql.php");
 include("../inc/fun-ini.php");
 require_once("../cls/cls-sistema.php");
 
@@ -86,7 +86,7 @@ while($rEvento = mysql_fetch_array($rsEventos))
                                         <table width="100%">
                                         <tr>
                                             <td align="center">
-                                            <button onclick="window.location=\''.obtenerURL().'detalles/catalogo/eventos/'.sprintf("%07d",$rEvento{'eCodEvento'}).'/\'"><i class="fa fa-eye"></i> Detalles</button>
+                                            <button onclick="window.location=\''.obtenerURL().'ser/cata-eve-det/detalles-catalogo-eventos/v1/'.sprintf("%07d",$rEvento{'eCodEvento'}).'/\'"><i class="fa fa-eye"></i> Detalles</button>
                                             </td>
                                             <td align="center">
                                             <button onclick="agregarTransaccion('.$rEvento{'eCodEvento'}.')" data-toggle="modal" data-target="#myModal"><i class="fas fa-dollar-sign"></i> Nueva Transacci&oacute;n</button>
@@ -144,7 +144,7 @@ while($rEvento = mysql_fetch_array($rsEventos))
                                         <table width="100%">
                                         <tr>
                                             <td align="center">
-                                            <button onclick="window.location=\''.obtenerURL().'detalles/catalogo/eventos/'.sprintf("%07d",$rEvento{'eCodEvento'}).'/\'"><i class="fa fa-eye"></i> Detalles</button>
+                                            <button onclick="window.location=\''.obtenerURL().'ser/cata-ren-det/detalles-catalogo-rentas/v1/'.sprintf("%07d",$rEvento{'eCodEvento'}).'/\'"><i class="fa fa-eye"></i> Detalles</button>
                                             </td>
                                             <td align="center">
                                             <button onclick="agregarTransaccion('.$rEvento{'eCodEvento'}.')" data-toggle="modal" data-target="#myModal"><i class="fas fa-dollar-sign"></i> Nueva Transacci&oacute;n</button>

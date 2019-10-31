@@ -60,7 +60,7 @@ function detalles(eCodCliente)
 											<tr>
                                                 <td><? menuEmergente($rPublicacion{'eCodServicio'}); ?></td>
 												<td><?=utf8_decode($rPublicacion{'tNombre'})?></td>
-												<td><?=substr(base64_decode($rPublicacion{'tDescripcion'}),0,50)?>...</td>
+												<td><?=substr(utf8_decode($rPublicacion{'tDescripcion'}),0,50)?>...</td>
 												<td>$<?=number_format($rPublicacion{'dPrecioVenta'},2)?></td>
                                             </tr>
 											<?

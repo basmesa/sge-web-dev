@@ -11,14 +11,14 @@ if (isset($_SERVER{'HTTP_ORIGIN'})) {
         header('Access-Control-Max-Age: 86400');    // cache for 1 day
     }
 
-include("../cnx/swgc-mysql.php");
+require_once("../cnx/swgc-mysql.php");
 include("../inc/fun-ini.php");
 require_once("../cls/cls-sistema.php");
 
 $clSistema = new clSis();
 session_start();
 
-$bAll = $clSistema->validarPermiso(obtenerScript());
+$bAll = $clSistema->validarPermiso($_GET['tCodSeccion']);
 
 
 date_default_timezone_set('America/Mexico_City');

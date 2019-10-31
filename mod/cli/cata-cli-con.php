@@ -45,12 +45,10 @@ function exportar()
                                             <tr>
                                                 <th>C&oacute;digo</th>
 												<th>E</th>
-												<th></th>
                                                 <th>Nombre</th>
                                                 <th>Apellidos</th>
                                                 <th class="text-right">Correo</th>
                                                 <th class="text-right">Tel&eacute;fono</th>
-												<th class="text-right">Fecha de registro</th>
 												<th class="text-right">Promotor</th>
                                             </tr>
                                         </thead>
@@ -76,18 +74,28 @@ function exportar()
 											<tr>
                                                 <td><? menuEmergente($rPublicacion{'eCodCliente'}); ?></td>
                                                 <td><i class="<?=$rPublicacion{'estatus'}?>"></i></td>
-                                                <td><?=utf8_decode($rPublicacion{'tTitulo'})?></td>
-												<td><?=utf8_decode($rPublicacion{'tNombres'})?></td>
+												<td><?=utf8_decode($rPublicacion{'tTitulo'})?><?=utf8_decode($rPublicacion{'tNombres'})?></td>
 												<td><?=utf8_decode($rPublicacion{'tApellidos'})?></td>
 												<td><?=utf8_decode($rPublicacion{'tCorreo'})?></td>
 												<td><?=utf8_decode($rPublicacion{'tTelefonoFijo'})?></td>
-                                                <td><?=date('d/m/Y',strtotime($rPublicacion{'fhFechaCreacion'}))?></td>
 												<td><?=utf8_decode($rPublicacion{'promotor'})?></td>
                                             </tr>
 											<?
 											}
 											?>
                                         </tbody>
+                                        <tfoot>
+                                            
+                                            <tr>
+                                                <th>C&oacute;digo</th>
+												<th>E</th>
+                                                <th>Nombre</th>
+                                                <th>Apellidos</th>
+                                                <th class="text-right">Correo</th>
+                                                <th class="text-right">Tel&eacute;fono</th>
+												<th class="text-right">Promotor</th>
+                                            </tr>
+                                        </tfoot>
                                     </table>
                                 
                             </div>

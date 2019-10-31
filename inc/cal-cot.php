@@ -11,7 +11,7 @@ if (isset($_SERVER{'HTTP_ORIGIN'})) {
         header('Access-Control-Max-Age: 86400');    // cache for 1 day
     }
 
-include("../cnx/swgc-mysql.php");
+require_once("../cnx/swgc-mysql.php");
 
 session_start();
 

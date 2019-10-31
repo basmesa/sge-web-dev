@@ -109,11 +109,36 @@ if(!$_SESSION['sessionAdmin'] || !$_GET['tCodSeccion'])
     .result p:hover{
         background: #f2f2f2;
     }
+    .resultClient{
+        position: absolute;        
+        z-index: 999;
+        top: 100%;
+        left: 0;
+        background-color: #FFF;
+    }
+    .resultClient{
+        width: 100%;
+        box-sizing: border-box;
+    }
+    /* Formatting resultClient items */
+    .resultClient p{
+        margin: 0;
+        padding: 7px 10px;
+        border: 1px solid #CCCCCC;
+        border-top: none;
+        cursor: pointer;
+    }
+    .resultClient p:hover{
+        background: #f2f2f2;
+    }
     </style>
     
 </head>
-
+<? if($_SESSION['sessionAdmin']['bPriv']) { ?>
 <body class="animsition">
+    <? } else { ?>
+    <body class="animsition" oncontextmenu="return false" onselectstart="return false" ondragstart="return false">
+    <? } ?>
     <div class="page-wrapper">
         <!-- HEADER MOBILE-->
         <header class="header-mobile d-block d-lg-none">
@@ -575,15 +600,16 @@ setTimeout(function(){
 	<script src="/js/aplicacion.js"></script>
     
         <!--DataTables-->
-        <script type="text/javascript" src="/DataTables/datatables.min.js"></script>
-	
-          <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script type="text/javascript" src="/DataTables/datatables.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script type="text/javascript" src="/js/jquery.serializejson.js"></script>
+    <script type="text/javascript" src="/ext/autocomplete/jquery.easy-autocomplete.min.js"></script>
         
-        <script type="text/javascript" src="/js/jquery.serializejson.js"></script>
+    <!-- Script -->
+    <!--<script src='/js/ac/jquery-3.1.1.min.js' type='text/javascript'></script>-->
+    <!--<script src='/js/ac/jquery-ui.min.js' type='text/javascript'></script>-->
         
-        <script type="text/javascript" src="/ext/autocomplete/jquery.easy-autocomplete.min.js"></script>
-        
-        <script>
+    <script>
       
       /*Preparación y envío*/
       function guardar(cierre)
@@ -607,7 +633,7 @@ setTimeout(function(){
           setTimeout(function(){ 
             $.ajax({
               type: "POST",
-              url: "<?=obtenerURL();?>cla/<?=$_GET['tCodSeccion'];?>.php",
+              url: "/cla/<?=$_GET['tCodSeccion'];?>.php",
               data: cadena,
               contentType: "application/json; charset=utf-8",
               dataType: "json",
@@ -657,7 +683,7 @@ setTimeout(function(){
           
           $.ajax({
               type: "POST",
-              url: "<?=obtenerURL();?>inc/inc-cal.php",
+              url: "/inc/inc-cal.php",
               data: jsonString,
               contentType: "application/json; charset=utf-8",
               dataType: "json",
@@ -686,7 +712,7 @@ setTimeout(function(){
           setTimeout(function(){
           $.ajax({
               type: "POST",
-              url: "<?=obtenerURL();?>cla/<?=$_GET['tCodSeccion'];?>.php",
+              url: "/cla/<?=$_GET['tCodSeccion'];?>.php",
               data: jsonString,
               contentType: "application/json; charset=utf-8",
               dataType: "json",
@@ -740,7 +766,7 @@ setTimeout(function(){
           
           $.ajax({
               type: "POST",
-              url: "<?=obtenerURL();?>cla/cons-deta.php",
+              url: "/cla/cons-deta.php",
               data: jsonString,
               contentType: "application/json; charset=utf-8",
               dataType: "json",
@@ -772,7 +798,7 @@ setTimeout(function(){
           
           $.ajax({
               type: "POST",
-              url: "<?=obtenerURL();?>cla/deta-reg.php",
+              url: "/cla/deta-reg.php",
               data: jsonString,
               contentType: "application/json; charset=utf-8",
               dataType: "json",
@@ -797,7 +823,7 @@ setTimeout(function(){
           
           $.ajax({
               type: "POST",
-              url: "<?=obtenerURL();?>cla/nva-tran.php",
+              url: "/cla/nva-tran.php",
               data: jsonString,
               contentType: "application/json; charset=utf-8",
               dataType: "json",
@@ -832,7 +858,7 @@ setTimeout(function(){
           
           $.ajax({
               type: "POST",
-              url: "<?=obtenerURL();?>cla/nva-oper.php",
+              url: "/cla/nva-oper.php",
               data: jsonString,
               contentType: "application/json; charset=utf-8",
               dataType: "json",
@@ -871,7 +897,7 @@ setTimeout(function(){
           
           $.ajax({
               type: "POST",
-              url: "<?=obtenerURL();?>cla/<?=$_GET['tCodSeccion'];?>.php",
+              url: "/cla/<?=$_GET['tCodSeccion'];?>.php",
               data: jsonString,
               contentType: "application/json; charset=utf-8",
               dataType: "json",
@@ -956,7 +982,7 @@ setTimeout(function(){
           
           $.ajax({
               type: "POST",
-              url: "<?=obtenerURL();?>inc/cal-cot.php",
+              url: "/inc/cal-cot.php",
               data: jsonString,
               contentType: "application/json; charset=utf-8",
               dataType: "json",
@@ -1002,7 +1028,7 @@ setTimeout(function(){
           
           $.ajax({
               type: "POST",
-              url: "<?=obtenerURL();?>cla/reg-carga-eve.php",
+              url: "/cla/reg-carga-eve.php",
               data: jsonString,
               contentType: "application/json; charset=utf-8",
               dataType: "json",
@@ -1039,7 +1065,7 @@ setTimeout(function(){
           
           $.ajax({
               type: "POST",
-              url: "<?=obtenerURL();?>que/buscar-subclasificaciones.php",
+              url: "/que/buscar-subclasificaciones.php",
               data: jsonString,
               contentType: "application/json; charset=utf-8",
               dataType: "json",
@@ -1069,6 +1095,101 @@ setTimeout(function(){
         {  
                 window.open('<?=obtenerURL();?>'+tipo+'/<?=$_GET['tCodSeccion'];?>/<?=(($_GET['v1']) ? 'v1/'.$_GET['v1'].'/' : '');?>', '_blank');
         }
+        
+        function buscarClientes()
+        {
+            $( function() {
+  
+        $( "#tCliente" ).autocomplete({
+            source: function( request, response ) {
+                
+                $.ajax({
+                    url: "/que/buscar-clientes-cotizaciones.php",
+                    type: 'get',
+                    dataType: "json",
+                    data: {
+                        search: request.term
+                    },
+                    success: function( data ) {
+                        response( data );
+                    }
+                });
+            },
+            select: function (event, ui) {
+                $('#tCliente').val(ui.item.label); // display the selected text
+                $('#eCodCliente').val(ui.item.value); // save selected id to input
+                return false;
+            }
+        });
+
+       
+        });
+        }
+        
+        function buscarPaquetes()
+        {
+            $( function() {
+  
+        $( "#tPaquete" ).autocomplete({
+            source: function( request, response ) {
+                
+                $.ajax({
+                    url: "/que/json-paquetes.php",
+                    type: 'get',
+                    dataType: "json",
+                    data: {
+                        search: request.term
+                    },
+                    success: function( data ) {
+                        response( data );
+                    }
+                });
+            },
+            select: function (event, ui) {
+                $('#tPaquete').val(ui.item.label); // display the selected text
+                $('#eCodServicio').val(ui.item.value); // save selected id to input
+                $('#eMaxPiezas').val(ui.item.maxpiezas); // save selected id to input
+                $('#dPrecioVenta').val(ui.item.precioventa); // save selected id to input
+                return false;
+            }
+        });
+
+       
+        });
+        }
+        
+        function buscarInventario()
+        {
+            $( function() {
+  
+        $( "#tInventario" ).autocomplete({
+            source: function( request, response ) {
+                
+                $.ajax({
+                    url: "/que/json-inventario.php",
+                    type: 'get',
+                    dataType: "json",
+                    data: {
+                        search: request.term
+                    },
+                    success: function( data ) {
+                        response( data );
+                    }
+                });
+            },
+            select: function (event, ui) {
+                $('#tInventario').val(ui.item.label); // display the selected text
+                $('#eCodServicio').val(ui.item.value); // save selected id to input
+                $('#eMaxPiezas').val(ui.item.maxpiezas); // save selected id to input
+                $('#dPrecioVenta').val(ui.item.precioventa); // save selected id to input
+                return false;
+            }
+        });
+
+       
+        });
+        }
+              
       
       
             
@@ -1084,16 +1205,10 @@ setTimeout(function(){
                   cambiarFechaEvento(<?=date('m');?>,<?=date('Y');?>);
               }
           
-          $( "#datepicker" ).datepicker();
-          
-          $("#datepicker").click(function() {
-              
-    // this is the selected element
-    //var date = $(this).datepicker("getDate");
-              var date = $("#datepicker").datepicker({ dateFormat: 'dd,MM,yyyy' }).val();
-              alert(date);
-              $("#datepicker1").val(date);
-});
+         $('#cliTable tfoot th').each( function () {
+        var title = $(this).text();
+        $(this).html( '<input type="text" class="form-control" placeholder="'+title+'" />' );
+    } );
           
           $('#cliTable, #misClientes1, #table, #tblClientes, #table0, #table1, #table2, #table3, #table4, #table5, #tblLogs').DataTable( {
         "scrollY": 400,
@@ -1129,6 +1244,30 @@ setTimeout(function(){
         $(this).parent(".result").empty();
     });
         /* ******* Búsqueda ******** */ 
+          
+         /* ****** Buscar clientes cotizaciones ******* */
+           $('#tCliente').on("keyup input", function(){
+        /* Get input value on change */
+        var inputVal = $(this).val();
+        var resultDropdown2 = $(this).siblings(".resultClient");
+            if(inputVal.length){
+                $.get("/que/buscar-clientes-cotizaciones.php", {term: inputVal}).done(function(data){
+                    // Display the returned data in browser
+                    
+                     document.getElementById('resultadoCliente').innerHTML = data;
+                    // resultDropdown2.html(data);
+                });
+            } else{
+                resultDropdown2.empty();
+            }
+         });
+         
+         // Set search input value on click of result item
+         $(document).on("click", ".resultClient p", function(){
+             $(this).parents("#datos").find('#tCliente').val($(this).text());
+             $(this).parent(".resultClient").empty();
+         });
+          /* ****** Buscar clientes cotizaciones ******* */   
            
       } );
         </script>  

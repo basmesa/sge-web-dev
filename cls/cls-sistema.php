@@ -26,6 +26,8 @@ class clSis
             $rInicio = mysql_fetch_array(mysql_query("SELECT * FROM SisSeccionesPerfilesInicio WHERE eCodPerfil = ".$rUsuario{'eCodPerfil'}));
             $url = base64_encode($this->generarUrl($rInicio{'tCodSeccion'}));
             
+            mysql_query("INSERT INTO SisUsuariosAccesos (eCodUsuario, fhFecha) VALUES (".$rUsuario{'eCodUsuario'}.",'".date('Y-m-d H:i:s')."')");
+            
             $pf = fopen("inicio.txt","a");
             fwrite($pf,base64_decode($url));
             fclose($pf);
@@ -47,9 +49,12 @@ class clSis
         
         //incluimos
 			$fichero = 'mod/'.$_GET['tDirectorio'].'/'.$_GET['tCodSeccion'].'.php';
+            
+            mysql_query("INSERT INTO SisUsuariosSeccionesAccesos (eCodUsuario, tCodSeccion,  fhFecha) VALUES (".$_SESSION['sessionAdmin']['eCodUsuario'].",'".$_GET['tCodSeccion']."','".date('Y-m-d H:i:s')."')");
 			//echo ($fichero);
 			return include($fichero);
-			
+		
+        
 
 	}
 	
@@ -79,35 +84,21 @@ class clSis
 
 		      $rsMenus = mysql_query($select);
             
-              if(mysql_num_rows($rsMenus)==1)
-              {
-                  $rMenu = mysql_fetch_array($rsMenus);
-                  $url = $this->generarUrl($rMenu{'tCodSeccion'});
-		          $activo = ($_GET['tCodSeccion']==$rMenu{'tCodSeccion'}) ? 'class="active"' : '';
-		          $bArchivo = $url;
+                if(mysql_num_rows($rsMenus))
+                { $tMenu .= '<li><i>'.$rTipoSeccion{'tNombre'}.'</i></li>'; }
+            
                   
-                  $tMenu .= '<li '.$activo.'>
-                                      <a href="'.$this->url.$bArchivo.'"><i class="'.($rMenu{'tIcono'}).'"></i>'.utf8_decode($rMenu{'tTitulo'}).'</a>
-                                  </li>';
-                  
-              }
-                else
-              {
-                  $tMenu .= '<li class="has-sub">
-                            <a class="js-arrow" href="#">
-                                <i class="'.($rTipoSeccion{'tIcono'}).'"></i>'.$rTipoSeccion{'tNombre'}.'</a>
-                            <ul class="navbar-mobile-sub__list list-unstyled js-sub-list">';
 		          while($rMenu = mysql_fetch_array($rsMenus))
 		          {
                         $url = $this->generarUrl($rMenu{'tCodSeccion'});
 		          	    $activo = ($_GET['tCodSeccion']==$rMenu{'tCodSeccion'}) ? 'class="active"' : '';
 		          	    $bArchivo = $url;
 		          	    $tMenu .= '<li '.$activo.'>
-                                      <a href="'.$this->url.$bArchivo.'">'.utf8_decode($rMenu{'tTitulo'}).'</a>
+                                      <a href="'.$this->url.$bArchivo.'"><i class="'.($rTipoSeccion{'tIcono'}).'"></i>'.utf8_decode($rMenu{'tTitulo'}).'</a>
                                   </li>';
 		          }
-                  $tMenu .= '</ul></li>';
-              }
+                 
+              
             /* ****** Cargamos las secciones ******** */
         }
 		
