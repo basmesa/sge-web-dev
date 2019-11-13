@@ -319,17 +319,6 @@ setTimeout(function(){
                     <div class="container-fluid">
                         
 						<?	
-        $select = "SELECT tBase FROM SisSeccionesReemplazos WHERE tNombre = '".$_GET['tAccion']."'";
-        $rAccion = mysql_fetch_array(mysql_query($select));
-        
-        $select = "SELECT tBase FROM SisSeccionesReemplazos WHERE tNombre = '".$_GET['tTipo']."'";
-        $rTipo = mysql_fetch_array(mysql_query($select));
-        
-        $select = "SELECT tBase FROM SisSeccionesReemplazos WHERE tNombre = '".$_GET['tSeccion']."'";
-        $rSeccion = mysql_fetch_array(mysql_query($select));
-        
-        $seccion = $rTipo{'tBase'}.'-'.$rSeccion{'tBase'}.'-'.$rAccion{'tBase'};
-                //echo $seccion;
 				$clSistema->cargarSeccion();
 						
 						?>

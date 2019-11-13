@@ -43,9 +43,10 @@ class clSis
 	public function cargarSeccion($seccion)
 	{
 		//$res->validarSeccion($_GET['tCodSeccion']);
-		//$res = $this->validarSeccion($_GET['tCodSeccion']);
+		$res = $this->validarSeccion($_GET['tCodSeccion']);
         
-        //generar url de archivo
+        if(!$res)
+        { $this->cerrarSesion(); }
         
         //incluimos
 			$fichero = 'mod/'.$_GET['tDirectorio'].'/'.$_GET['tCodSeccion'].'.php';
@@ -108,11 +109,11 @@ class clSis
 	public function validarSeccion($seccion)
 	{
 		$select = 	"SELECT * FROM SisSeccionesPerfiles ".
-					($_SESSION['sessionAdmin']['bAll'] ? "" : " WHERE eCodPerfil = ".$_SESSION['sessionAdmin']['eCodPerfil']." AND tCodSeccion = '".$seccion."'");
+					($_SESSION['sessionAdmin']['bAll'] ? "" : " WHERE eCodPerfil = ".$_SESSION['sessionAdmin']['eCodPerfil']." AND tCodSeccion = '".$_GET['tCodSeccion']."'");
 		
 		$rsSeccion = mysql_query($select);
 		$rSeccion = mysql_fetch_array($rsSeccion);
-		return $rSeccion{'tCodSeccion'} ? $rSeccion{'tCodSeccion'} : false;
+		return (mysql_num_rows($rSeccion{'tCodSeccion'})>0) ? true : false;
 	}
 	
 	public function validarEnlace($seccion)
