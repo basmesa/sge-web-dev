@@ -29,10 +29,10 @@ if(!$_SESSION['sessionAdmin'] || !$_GET['tCodSeccion'])
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     
     <!-- Required meta tags-->
-    <meta charset="UTF-8">
+    
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="SGE Dashboard">
     <meta name="author" content="SGE Dashboard">
@@ -68,7 +68,7 @@ if(!$_SESSION['sessionAdmin'] || !$_GET['tCodSeccion'])
     <link rel="stylesheet" type="text/css" href="/DataTables/datatables.min.css"/>
 
     <!--DatePicker-->
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/Start/jquery-ui.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/Base/jquery-ui.css">
     
     <link href="/css/calendario.css" rel="stylesheet" media="all">
     
@@ -404,9 +404,22 @@ setTimeout(function(){
         </div>
         <div class="modal-body">
           <form action="?tCodSeccion=<?=$_GET['tCodSeccion']?>" method="post" id="nvaOperador">
+              
               <input type="hidden" id="eCodEventoOperador" name="eCodEventoOperador">
-            <label><input type="radio" value="tOperadorEntrega" name="tCampo"> A la Entrega </label><br>
-            <label><input type="radio" value="tOperadorRecoleccion" name="tCampo"> A la Recolecci&oacute;n </label><br><br>
+              <label><input type="radio" value="tOperadorEntrega" name="tCampo"> A la Entrega </label><br>
+            <label><input type="radio" value="tOperadorRecoleccion" name="tCampo"> A la Recolecci&oacute;n </label><br>
+               <label>Veh&iacute;culo</label>
+         <select class="form-control" id="eCodCamioneta" name="eCodCamioneta">
+              <option value="">Seleccione...</option>
+             <?php 
+                $select = "SELECT * FROM CatCamionetas WHERE tCodEstatus = 'AC' ORDER BY eCodCamioneta ASC";
+                $rsCamionetas = mysql_query($select);
+                while($rCamioneta = mysql_fetch_array($rsCamionetas)) { ?>
+             <option value="<?=$rCamioneta{'eCodCamioneta'};?>"><?=$rCamioneta{'tNombre'};?></option>
+             <? } ?>
+              </select>
+             <br><br> 
+            
             <label>Responsable: 
               <input type="text" class="form-control" name="tResponsable" id="tResponsable" required>
               </label><br>
@@ -444,14 +457,17 @@ setTimeout(function(){
     <div class="modal-dialog">
     
       <!-- Modal content-->
-      <div class="modal-content">
+      <!--<div class="modal-content">
         <div class="modal-body">
           <center>
             <img src="/res/ok.png" style="width:75px; height:75px;"><br>
               <h3>Registro Guardado Exitosamente</h3><br>
             </center>
         </div>
-      </div>
+      </div>-->
+       <div class="alert alert-success">
+  <strong>&Eacute;xito!</strong> Registro Guardado Exitosamente
+</div>
       
     </div>
   </div>
@@ -496,21 +512,12 @@ setTimeout(function(){
       <div class="modal-content">
           <form id="carga" name="carga">
               <input type="hidden" id="eCodEventoCarga" name="eCodEventoCarga">
-          <div class="modal-body">
-              <label>Veh&iacute;culo</label>
-         <select class="form-control" id="eCodCamioneta" name="eCodCamioneta" onchange="validarCarga()">
-              <option value="">Seleccione...</option>
-             <?php 
-                $select = "SELECT * FROM CatCamionetas WHERE tCodEstatus = 'AC' ORDER BY eCodCamioneta ASC";
-                $rsCamionetas = mysql_query($select);
-                while($rCamioneta = mysql_fetch_array($rsCamionetas)) { ?>
-             <option value="<?=$rCamioneta{'eCodCamioneta'};?>"><?=$rCamioneta{'tNombre'};?></option>
-             <? } ?>
-              </select>
-        </div>    
-        <div class="modal-body" id="detalleCarga" >
+            <div class="modal-body">
+                <div class="modal-body" id="detalleCarga" >
          
-        </div>
+                </div>
+            </div>    
+        
               <div class="modal-body" style="text-align:center;">
          <button type="button" id="guardarCarga" class="btn btn-info" style="display:none;" onclick="registrarCarga();">Guardar</button>
         </div>
@@ -524,10 +531,10 @@ setTimeout(function(){
   </div>
         <!-- Modal -->
   <div class="modal fade" id="resError" role="dialog">
-    <div class="modal-dialog">
+    <div class="modal-dialog" id="divErrores">
     
       <!-- Modal content-->
-      <div class="modal-content">
+      <!--<div class="modal-content">
         <div class="modal-body">
           <center>
             <img src="/res/error.png" style="width:75px; height:75px;"><br>
@@ -535,7 +542,10 @@ setTimeout(function(){
             </center>
             <div id="divErrores" name="divErrores"></div>
         </div>
-      </div>
+      </div>-->
+        <div class="alert alert-danger">
+            <strong>Error!</strong> Favor de validar la siguiente informaci&oacute;n
+        </div>
       
     </div>
   </div>
@@ -649,11 +659,18 @@ setTimeout(function(){
                   else
                       {
                           var mensaje="";
+                          var msgHTML="";
                           for(var i=0;i<data.errores.length;i++)
                      {
                          mensaje += "-"+data.errores[i]+"\n";
+                         msgHTML += "<div class=\"alert alert-danger\"><strong>"+data.errores[i]+"</strong></div>";
                      }
-                          alert("Error al procesar la solicitud.\n<-Valide la siguiente informacion->\n\n"+mensaje);
+                          document.getElementById('divErrores').innerHTML = "<div class=\"alert alert-danger\"><strong>Error!</strong> Favor de validar la siguiente informaci&oacute;n</div>";
+                          document.getElementById('divErrores').innerHTML += msgHTML;
+                          setTimeout(function(){
+                                $('#resError').modal('show');
+                          },200);
+                          //alert("Error al procesar la solicitud.\n<-Valide la siguiente informacion->\n\n"+mensaje);
                          
                       }
                   
@@ -662,7 +679,7 @@ setTimeout(function(){
                   alert('Error al enviar los datos.');
               }
           });
-          }, 2500);
+          }, 500);
           
       }
 
@@ -751,7 +768,7 @@ setTimeout(function(){
                   alert('Error al enviar los datos.');
               }
           });
-              }, 3000);
+              }, 200);
           
       }
             
@@ -1118,6 +1135,7 @@ setTimeout(function(){
             select: function (event, ui) {
                 $('#tCliente').val(ui.item.label); // display the selected text
                 $('#eCodCliente').val(ui.item.value); // save selected id to input
+                $('#bLibre').val(ui.item.bLibre); // save selected id to input
                 return false;
             }
         });
@@ -1189,8 +1207,6 @@ setTimeout(function(){
        
         });
         }
-              
-      
       
             
       $(document).ready( function () {

@@ -26,7 +26,7 @@ $data = json_decode( file_get_contents('php://input') );
 
         $eCodEvento = $data->eCodEvento ? $data->eCodEvento : false;
         $eCodCliente = $data->eCodCliente ? $data->eCodCliente : "NULL";
-        $eCodUsuario = $_SESSION['sessionAdmin'][0]['eCodUsuario'];
+        $eCodUsuario = $_SESSION['sessionAdmin']['eCodUsuario'];
         $fhFechaEvento = $data->fhFechaEvento ? "'".date('Y-m-d',strtotime($data->fhFechaEvento))." ".$data->tmHoraServicio."'" : "NULL";
         $tmHoraMontaje = "'".date('H:i', strtotime('-2 hours', strtotime($data->tmHoraServicio)))."'";
         //$tmHoraMontaje = $data->tmHoraMontaje ? "'".$data->tmHoraMontaje."'" : "NULL";

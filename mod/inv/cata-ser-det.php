@@ -16,7 +16,7 @@ $rPaquete = mysql_fetch_array($rsPaquete);
                                             <td>Nombre</td>
                                             <td><?=utf8_encode($rPaquete{'tNombre'})?></td>
                                             <td>Descripci&oacute;n</td>
-                                            <td align="left"><?=nl2br(utf8_decode($rPaquete{'tDescripcion'}));?></td>
+                                            <td align="left"><?=nl2br(base64_decode($rPaquete{'tDescripcion'}));?></td>
                                         </tr>
                                         <tr>
                                             <td>Precio de Venta</td>

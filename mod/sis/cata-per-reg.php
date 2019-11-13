@@ -28,9 +28,11 @@ if($_POST)
 	echo '<script>window.location="?tCodSeccion=cata-per-sis";</script>';
 }
 
-$select = mysql_query("SELECT * FROM SisSeccionesPerfiles WHERE tCodSeccion = 'sis-dash-con' AND eCodPerfil = ".($_GET{'val'} ? $_GET{'val'} : 1));
+$select = mysql_query("SELECT * FROM SisSeccionesPerfiles WHERE tCodSeccion = 'sis-dash-con' AND eCodPerfil = ".($_GET{'v1'} ? $_GET{'v1'} : 1));
 $rDashboard = mysql_num_rows($select) ? 'checked="checked"' : '';
 $rPerDash = mysql_fetch_array($select);
+
+
 ?>
 
 <script>
@@ -86,8 +88,8 @@ funcion validar()
                                         <div class="table-responsive">
                                             <table class="table table-borderless table-striped">
                                                 <tbody>
-                                                    <tr>
-                                                        <td width="16"><input type="checkbox" id="secciones[0][tCodSeccion]" name="secciones[0][tCodSeccion]" value="sis-dash-con" <?=$rDashboard;?>></td>
+                                                    <tr id="trFilaPerfil0">
+                                                        <td width="16"><input type="checkbox" id="secciones[0][tCodSeccion]" name="secciones[0][tCodSeccion]" value="sis-dash-con" <?=(($rPerDash{'tCodSeccion'}) ? 'checked="checked"': '' );?>></td>
                                                         <td colspan="2">Dashboard</td>
 														<td align="right">
 															<label>A <input type="checkbox" name="secciones[0][bAll]" value="1" <?=$rPerDash{'bAll'} ? 'checked' : ''?> ></label>
@@ -109,7 +111,7 @@ funcion validar()
                                                         $bSeccion = mysql_num_rows($rsSeccionPerfil) ? true : false;
                                                         $rSeccionPerfil = mysql_fetch_array($rsSeccionPerfil);
 														?>
-													<tr>
+													<tr id="trFilaPerfil<?=$b;?>">
                                                         <td width="16"><input type="checkbox" id="secciones[<?=$b?>][tCodSeccion]" name="secciones[<?=$b?>][tCodSeccion]" value="<?=$rSeccion{'tCodSeccion'}?>" <?=$bSeccion || !$rSeccion{'tCodPadre'} ? 'checked' : ''?>></td>
                                                         <td colspan="2"><?=$rSeccion{'tTitulo'}?></td>
 														

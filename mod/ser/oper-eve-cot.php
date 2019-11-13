@@ -12,7 +12,7 @@ session_start();
 $bAll = $_SESSION['bAll'];
 $bDelete = $_SESSION['bDelete'];
 
-$select = "SELECT be.*, cc.tNombres, cc.tApellidos FROM BitEventos be INNER JOIN CatClientes cc ON cc.eCodCliente = be.eCodCliente WHERE be.eCodEvento = ".$_GET['v1'];
+$select = "SELECT be.*, cc.tNombres, cc.tApellidos, cc.bLibre FROM BitEventos be INNER JOIN CatClientes cc ON cc.eCodCliente = be.eCodCliente WHERE be.eCodEvento = ".$_GET['v1'];
 //echo $select;
 $rsPublicacion = mysql_query($select);
 $rPublicacion = mysql_fetch_array($rsPublicacion);
@@ -101,6 +101,7 @@ $horas[] = array('23:30','23:30 - 04:30');
            <div class="form-group">
               <label> Cliente</label> 
                <input type="hidden" name="eCodCliente" id="eCodCliente" value="<?=$rPublicacion{'eCodCliente'};?>"> 
+               <input type="hidden" name="bLibre" id="bLibre" value="<?=($rPublicacion{'bLibre'} ? 1 : 2);?>"> 
                <input type="text" class="form-control" id="tCliente" <?=(($_GET['v1']) ? 'readonly="readonly"' : '' )?> value="<?=(($rPublicacion{'eCodCliente'}) ? $rPublicacion{'tNombres'} . ' '.$rPublicacion{'tApellidos'} : '');?>" placeholder="Cliente" onkeyup="buscarClientes()" onkeypress="buscarClientes()"> 
                <small>Buscar y seleccionar el cliente de la lista</small>
                </div>
@@ -188,8 +189,8 @@ $horas[] = array('23:30','23:30 - 04:30');
                                                     <input type="text" class="form-control" id="ePiezasInv" placeholder="10" onkeyup="validarPiezas(this.id)">
                                                 </td>
                                                 <td class="text-right" width="15%">
-                                                    <input type="button" class="btn btn-info" onclick="nvaFila('Inv',1)" value="+">
-                                                    <input type="button" class="btn btn-info" onclick="nvaFila('Inv',1,1)" value="&#x1f381;">
+                                                    <input type="button" class="btn btn-info" onclick="nvaFila('Inv',2)" value="+">
+                                                    <input type="button" class="btn btn-info" onclick="nvaFila('Inv',2,1)" value="&#x1f381;">
                                                 </td>
                                             </tr>
                                     </table>
@@ -531,10 +532,11 @@ function hora(objeto)
 	{
 		var	eCantidad 	= document.getElementById(objeto);
 		var	eMaxPiezas 	= document.getElementById('eMaxPiezas');
+		var	bLibre 	    = document.getElementById('bLibre');
 		
 		
 		
-		if( parseInt(eCantidad.value) > parseInt(eMaxPiezas.value)) 
+		if( (parseInt(eCantidad.value) > parseInt(eMaxPiezas.value)) && bLibre.value==2)
 			{
 				alert("No permitido. El máximo de venta es de "+eMaxPiezas.value+" unidades.");
 				eCantidad.value=eMaxPiezas.value;

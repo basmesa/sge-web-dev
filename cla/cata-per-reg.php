@@ -15,6 +15,8 @@ require_once("../cnx/swgc-mysql.php");
 
 session_start();
 
+$pf = fopen("logPerfil.txt","a");
+
 $errores = array();
 
 $data = json_decode( file_get_contents('php://input') );
@@ -28,7 +30,11 @@ $data = json_decode( file_get_contents('php://input') );
         $tNombre = "'".$data->tNombre."'";
         $insert = "INSERT INTO SisPerfiles (tNombre) VALUES($tNombre)";
         $rsNuevo = mysql_query($insert);
-        $eCodPerfil = mysqli_insert_id();
+        
+        $select = "SELECT eCodPerfil FROM SisPerfiles WHERE tNombre = $tNombre";
+        $rPerfil = mysql_fetch_array(mysql_query($select));
+        
+        $eCodPerfil = $rPerfil{'eCodPerfil'};
         
         if(!$rsNuevo)
         {
@@ -56,7 +62,7 @@ $data = json_decode( file_get_contents('php://input') );
 
             if(!$rs)
             {
-                $errores[] = 'Error al adjuntar la secci&oacute;n '.$secciones[$key]->tCodSeccion.' al perfil '.mysql_error();
+                $errores[] = 'Error al adjuntar la secci&oacute;n '.$secciones->tCodSeccion.' al perfil '.mysql_error();
             } 
         }
 	}

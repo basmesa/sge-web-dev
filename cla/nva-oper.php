@@ -21,13 +21,14 @@ $data = json_decode( file_get_contents('php://input') );
 
 
 
-$eCodEvento = $data->eCodEventoOperador;
+    $eCodEvento = $data->eCodEventoOperador;
+    $eCodCamioneta = $data->eCodCamioneta;
     $tCampo = $data->tCampo;
     $tOperador = "'".$data->tResponsable."'";
     
    
         
-    mysql_query("UPDATE BitEventos SET $tCampo = $tOperador WHERE eCodEvento = ".$eCodEvento);
+    mysql_query("UPDATE BitEventos SET eCodCamioneta = $eCodCamioneta, $tCampo = $tOperador WHERE eCodEvento = ".$eCodEvento);
 
 echo json_encode(array("exito"=>((!sizeof($errores)) ? 1 : 0), 'errores'=>$errores));
 

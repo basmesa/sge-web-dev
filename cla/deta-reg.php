@@ -35,8 +35,12 @@ $eCodEvento = $data->eCodEvento ? $data->eCodEvento : $_GET['eCodEvento'];
 $rsPublicacion = mysql_query($select);
 $rPublicacion = mysql_fetch_array($rsPublicacion);
 
+    $select = "SELECT cc.* FROM CatCamionetas cc INNER JOIN BitEventos be ON be.eCodCamioneta=cc.eCodCamioneta WHERE be.eCodEvento = ".$eCodEvento;
+$rCamioneta = mysql_fetch_array(mysql_query($select));
+
 
        $detalle = '<table class="table table-borderless " width="100%">';
+        $detalle .= '<tr><td>Veh&iacute;culo; '.(($rCamioneta{'eCodCamioneta'}) ? 'No Asignada - NO CARGAR' : $rCamioneta{'tNombre'}).' <input type="hidden" id="eCodCamioneta" name="eCodCamioneta" value="'.$rCamioneta{'eCodCamioneta'}.'"></td></tr>';
       
                             
 											

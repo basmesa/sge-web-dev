@@ -202,12 +202,12 @@ $rsClientes = mysql_query($select);
                                             $dTotalEvento = 0;
 											while($rPaquete = mysql_fetch_array($rsPaquetes))
 											{
-                                                
-                                                $dHoraExtra = $rPaquete{'dHoraExtra'};
+                                                $eCantidad = $rPaquete{'eCantidad'};
+                                                $dHoraExtra = $rPaquete{'dHoraExtra'}*$eCantidad;
 												?>
 											<tr class="item">
                 <td>
-                    <b><?=utf8_encode($rPaquete{'tNombre'})?></b><br>
+                    <b>(<?=$eCantidad;?>) <?=utf8_encode($rPaquete{'tNombre'})?></b><br>
                 </td>
                 
                 <td>
@@ -228,7 +228,7 @@ $rsClientes = mysql_query($select);
                                                 while($rDesglose = mysql_fetch_array($rsDesglose))
                                                 {
                                                     ?>
-                    <tr class="item"><td colspan="2">(<?=$rDesglose{'ePiezas'}?>) <?=($rDesglose{'tNombre'})?></td></tr>
+                    <tr class="item"><td colspan="2">(<?=($rDesglose{'ePiezas'}*$eCantidad)?>) <?=($rDesglose{'tNombre'})?></td></tr>
                     <?
                                                 }
                     ?>
