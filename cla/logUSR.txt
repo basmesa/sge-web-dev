@@ -1,0 +1,20 @@
+{"eCodUsuario":"","eAccion":"1","tCorreo":"catalogos@antroentucasa.com.mx","tPasswordAcceso":"catalogos","tPasswordOperaciones":"","tNombre":"Sistema","tApellidos":"Catalogos","eCodPerfil":"7"}
+
+INSERT INTO SisUsuarios (tNombre, tApellidos, tCorreo, tPasswordAcceso, tPasswordOperaciones,  eCodEstatus, eCodPerfil, fhFechaCreacion,bAll) VALUES ('Sistema', 'Catalogos', 'catalogos@antroentucasa.com.mx', 'Y2F0YWxvZ29z', 'Y2F0YWxvZ29z', 3, 7, '2019-11-11 19:51:39',0)
+
+{"eCodUsuario":"","eAccion":"1","tCorreo":"","tPasswordAcceso":"","tPasswordOperaciones":"","tNombre":"","tApellidos":"","eCodPerfil":""}
+
+
+
+{"eCodUsuario":"","eAccion":"1","tCorreo":"","tPasswordAcceso":"","tPasswordOperaciones":"","tNombre":"","tApellidos":"","eCodPerfil":""}
+
+
+
+{"eCodUsuario":"","eAccion":"1","tCorreo":"","tPasswordAcceso":"","tPasswordOperaciones":"","tNombre":"","tApellidos":"","eCodPerfil":""}
+
+
+
+{"eCodUsuario":"","eAccion":"1","tCorreo":"","tPasswordAcceso":"","tPasswordOperaciones":"","tNombre":"","tApellidos":"","eCodPerfil":""}
+
+
+

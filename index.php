@@ -319,6 +319,17 @@ setTimeout(function(){
                     <div class="container-fluid">
                         
 						<?	
+        $select = "SELECT tBase FROM SisSeccionesReemplazos WHERE tNombre = '".$_GET['tAccion']."'";
+        $rAccion = mysql_fetch_array(mysql_query($select));
+        
+        $select = "SELECT tBase FROM SisSeccionesReemplazos WHERE tNombre = '".$_GET['tTipo']."'";
+        $rTipo = mysql_fetch_array(mysql_query($select));
+        
+        $select = "SELECT tBase FROM SisSeccionesReemplazos WHERE tNombre = '".$_GET['tSeccion']."'";
+        $rSeccion = mysql_fetch_array(mysql_query($select));
+        
+        $seccion = $rTipo{'tBase'}.'-'.$rSeccion{'tBase'}.'-'.$rAccion{'tBase'};
+                //echo $seccion;
 				$clSistema->cargarSeccion();
 						
 						?>
@@ -1064,6 +1075,59 @@ setTimeout(function(){
           });    
         }
         
+    //paquetes
+    function agregarInventario(indice)
+        {
+             $( function() {
+  
+        $( "#tInventario"+indice ).autocomplete({
+            source: function( request, response ) {
+                
+                $.ajax({
+                    url: "/que/json-inventario.php",
+                    type: 'get',
+                    dataType: "json",
+                    data: {
+                        search: request.term
+                    },
+                    success: function( data ) {
+                        response( data );
+                    }
+                });
+            },
+            select: function (event, ui) {
+                $('#tInventario'+indice).val(ui.item.label); // display the selected text
+                $('#eCodInventario'+indice).val(ui.item.value); // save selected id to input
+                return false;
+            }
+        });
+
+       
+        }); 
+        }
+        //tabla
+    function agregarFilaInventario(indice) {
+		var nIndice = parseInt(indice)+1;
+        var tInventario = document.getElementById("tInventario"+nIndice);
+          if(typeof tInventario != "undefined")  
+              {
+		          var x = document.getElementById("tbInventario").rows.length;
+            
+                  var table = document.getElementById("tbInventario");
+                  var row = table.insertRow(x);
+                  row.id="inv"+(nIndice);
+                  row.innerHTML = '<td style="padding:5px;"><i class="far fa-trash-alt" onclick="eliminarFilaInventario('+nIndice+')"></i><input type="hidden" name="inventario['+nIndice+'][eCodInventario]" id="eCodInventario'+nIndice+'"></td>';
+                  row.innerHTML += '<td><input type="text" class="form-control" id="tInventario'+nIndice+'" name="tInventario'+nIndice+'" onchange="agregarFilaInventario('+nIndice+')"></td>';
+                  row.innerHTML += '<td><input type="text" class="form-control" name="inventario['+nIndice+'][ePiezas]" id="ePiezas'+nIndice+'" onblur="validaNumero(this.value);"></td>';
+              }
+    }
+    
+    function eliminarFilaInventario(rowid)  {   
+    var row = document.getElementById('inv'+rowid);
+    row.parentNode.removeChild(row);
+      
+}
+    //otros
          function buscarSubclasificacion()
         {
           var obj = $('#datos').serializeJSON();

@@ -20,6 +20,7 @@ if($_POST['search'] || $_GET['search']){
 			" 	SELECT  ".
 			" 	cc.eCodCliente,  ".
 			" 	CONCAT(cc.tNombres, ' ', cc.tApellidos) tCliente,  ".
+			" 	bLibre,  ".
 			" 	su.tNombre as promotor ".
 			" FROM ".
 			" 	CatClientes cc ".
@@ -34,7 +35,7 @@ if($_POST['search'] || $_GET['search']){
             $result = mysql_query($select);
     
     while($row = mysql_fetch_array($result)){
-        $response[] = array("value"=>$row['eCodCliente'],"label"=>$row['tCliente']);
+        $response[] = array("value"=>$row['eCodCliente'],"label"=>$row['tCliente'],"bLibre"=>(($row['bLibre']) ? 1 : 2));
     }
 
     echo json_encode($response);

@@ -19,7 +19,9 @@ $errores = array();
 
 $data = json_decode( file_get_contents('php://input') );
 
-
+$pf = fopen("jsonInventarioPaquete.txt","w");
+fwrite($pf,json_encode($data));
+fclose($pf);
 
 /*Preparacion de variables*/
         

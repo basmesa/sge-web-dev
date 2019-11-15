@@ -88,6 +88,7 @@ $select = "SELECT be.*, cc.tNombres nombreCliente, cc.tApellidos apellidosClient
                                                         be.fhFechaEvento >= '$fhFechaInicio' AND be.fhFechaEvento<='$fhFechaTermino'".
                                                         " AND be.eCodEstatus<>4".
                                                         " AND be.eCodTipoDocumento=1".
+                                                        " AND cc.eCodCliente <> 1".
 												        ($bAll ? "" : " AND cc.eCodUsuario = ".$_SESSION['sessionAdmin']['eCodUsuario']).
 														" ORDER BY be.fhFechaEvento DESC";
 
@@ -131,6 +132,7 @@ $select = "SELECT be.*, cc.tNombres nombreCliente, cc.tApellidos apellidosClient
                                                         be.fhFechaEvento >= '$fhFechaInicio' AND be.fhFechaEvento<='$fhFechaTermino'".
                                                         " AND be.eCodEstatus<>4".
                                                         " AND be.eCodTipoDocumento=2".
+                                                        " AND cc.eCodCliente <> 1".
 												        ($bAll ? "" : " AND cc.eCodUsuario = ".$_SESSION['sessionAdmin']['eCodUsuario']).
 														" ORDER BY be.fhFechaEvento DESC";
 

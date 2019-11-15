@@ -126,60 +126,50 @@ var dPrecio = document.getElementById("dPrecio");
                             </div>
         
         <!--tabs-->
-        <?
-    $select = "SELECT * FROM CatTiposInventario ORDER BY tNombre DESC";
-           $rsTipos = mysql_query($select);
-           $tipos = array();
-           while($rTipo = mysql_fetch_array($rsTipos))
-           {
-               $tipos[] = array('eCodTipoInventario'=>$rTipo{'eCodTipoInventario'},'tNombre'=>$rTipo{'tNombre'});
-           }
-    ?>
+        
         <div class="" style="padding-top:10px;">
-            <table class="display" id="table">
+            <table id="tbInventario">
                                         <thead>
                                             <tr>
 				   <th width="2%"></th>
-                   <th width="2%">Tipo</th>
 			   <th width="93%">Inventario</th>
-				   <th>Piezas</th>
+				   <th width="2%">Piezas</th>
 			   </tr>
                                         </thead>
                                         <tbody>
 											<?
 											$select = "	SELECT 
-															cti.tNombre as tipo, 
-															ci.*
+															cti.ePiezas, 
+															ci.tNombre,
+                                                            ci.eCodInventario
 														FROM
 															CatInventario ci
-															INNER JOIN CatTiposInventario cti ON cti.eCodTipoInventario = ci.eCodTipoInventario".
-														//" WHERE ci.eCodTipoInventario = ".$tipos[$i]['eCodTipoInventario'].
-														" ORDER BY cti.tNombre ASC, ci.tNombre ASC";
+															INNER JOIN RelServiciosInventario cti ON cti.eCodInventario = ci.eCodInventario AND cti.eCodServicio = ".$_GET['v1'];
 											$rsPublicaciones = mysql_query($select);
 		   									$b = 0;
 											while($rPublicacion = mysql_fetch_array($rsPublicaciones))
 											{
-												$select = "SELECT * FROM RelServiciosInventario WHERE eCodInventario = ".$rPublicacion{'eCodInventario'}." AND eCodServicio = ".$_GET['v1'];
-												$rServicio = mysql_fetch_array(mysql_query($select));
 												?>
-											<tr>
-												<td>
-													
-                                                        <input type="checkbox" id="inventario[<?=$b?>][eCodInventario]" name="inventario[<?=$b?>][eCodInventario]" value="<?=$rPublicacion{'eCodInventario'}?>" <?=($rServicio{'eCodInventario'}) ? 'checked' : ''?>>
-                                                        
-												</td>
-                                                <td><?=utf8_decode($rPublicacion{'tipo'})?></td>
-												<td>
-												<?=($rPublicacion{'tNombre'})?> <?=($rPublicacion{'tMarca'} ? ' | '.$rPublicacion{'tMarca'} : '')?>
-												</td>
-												<td>
-													<input type="text" size="4" name="inventario[<?=$b?>][ePiezas]" id="inventario[<?=$b?>][ePiezas]" class="form-control" placeholder="10" value="<?=$rServicio{'ePiezas'}?>" onblur="validaNumero(this.value);">
-												</td>
+											<tr id="inv<?=$b;?>">
+                                                <td style="padding:5px;"><i class="far fa-trash-alt" onclick="eliminarFilaInventario(<?=$b;?>)"></i><input type="hidden" name="inventario[<?=$b;?>][eCodInventario]" id="eCodInventario<?=$b;?>" value="<?=$rPublicacion{'eCodInventario'}?>"></td>
+                                                <td><input type="text" class="form-control" id="tInventario<?=$b;?>" name="tInventario<?=$b;?>" onchange="agregarFilaInventario(<?=$b;?>)" value="<?=$rPublicacion{'tNombre'}?>"></td>
+                                                <td><input type="text" class="form-control" name="inventario[<?=$b;?>][ePiezas]" id="ePiezas<?=$b;?>" onblur="validaNumero(this.value);" value="<?=$rPublicacion{'ePiezas'}?>"></td>
                                             </tr>
 											<?
 													$b++;
 											}
 											?>
+                                            <tr id="inv<?=$b;?>">
+                                                <td style="padding:5px;">
+                                                    <i class="far fa-trash-alt" onclick="eliminarFilaInventario(<?=$b;?>)"></i><input type="hidden" name="inventario[<?=$b;?>][eCodInventario]" id="eCodInventario<?=$b;?>">
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" id="tInventario<?=$b;?>" name="tInventario<?=$b;?>" onchange="agregarFilaInventario(<?=$b;?>)"  onkeyup="agregarInventario(<?=$b;?>)" onkeypress="agregarInventario(<?=$b;?>)">
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="inventario[<?=$b;?>][ePiezas]" id="ePiezas<?=$b;?>" onblur="validaNumero(this.value);">
+                                                </td>
+                                            </tr>
                                         </tbody>
                                     </table>
         

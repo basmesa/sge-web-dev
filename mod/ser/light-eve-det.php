@@ -253,7 +253,7 @@ $rsClientes = mysql_query($select);
 												?>
 											<tr class="item">
                 <td>
-                    <b></b> - <?=utf8_encode($rInventario{'tNombre'})?>
+                    <b><?=$rInventario{'eCantidad'};?></b> - <?=utf8_encode($rInventario{'tNombre'})?>
                 </td>
                 
                 <td>
